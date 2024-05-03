@@ -7,12 +7,13 @@ import NomePersonalizado from './src/ExemploParametro';
 import Aprovado from './src/CalcularMedia';
 import Exemplo1 from './src/Exemplo1';
 import Tela from './src/Tela';
+import TelaMed from './src/TelaMed';
 
 
 
 function App(): React.JSX.Element{
   return(
-      <Tela/>
+      <TelaMed/>
   );
 }
 
