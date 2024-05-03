@@ -1,11 +1,14 @@
-import React from 'react';
-import { Alert, View, Text, Image, ScrollView, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { Alert, View, Text, Image, TextInput, StyleSheet, Pressable } from 'react-native';
 
 const clicou = () => {
     Alert.alert("Arthur Maciel", "Você chegou no final da execução!");
 }
 
 const Tela = () => {
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
+
     return (
         <>
             <View style={styles.container}>
@@ -18,18 +21,20 @@ const Tela = () => {
                 <TextInput
                     style={styles.input}
                     placeholder="Digite seu email"
+                    onChangeText={(text) => {setEmail(text)}}
                 />
                 <TextInput
                     style={styles.input}
                     secureTextEntry={true}
                     placeholder="Digite sua senha"
+                    onChangeText={(text) => {setSenha(text)}}
                 />
-                <TouchableOpacity
-                    style={styles.botao}
+                <Pressable
+                    style={(state) => [styles.botao, state.pressed ? { opacity: 0.5} : null]}
                     onPress={() => { clicou() }}
                 >
                     <Text style={styles.botaoText}>Login</Text>
-                </TouchableOpacity>
+                </Pressable>
             </View>
         </>
     );
