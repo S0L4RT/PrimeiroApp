@@ -8,12 +8,13 @@ import Aprovado from './src/CalcularMedia';
 import Exemplo1 from './src/Exemplo1';
 import Tela from './src/Tela';
 import TelaMed from './src/TelaMed';
+import TelaCadastro from './src/TelaCadastro';
 
 
 
 function App(): React.JSX.Element{
   return(
-      <TelaMed/>
+      <TelaCadastro/>
   );
 }
 
