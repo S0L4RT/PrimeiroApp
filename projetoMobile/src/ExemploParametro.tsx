@@ -11,7 +11,7 @@ const NomePersonalizado = (props: Props) => {
     <Text style={{fontSize: 40, color: 'red'}}>
         {props.nome + ' ' + props.sobrenome}
     </Text>
-    )
+    );
 };
 
-export default NomePersonalizado
+export default NomePersonalizado;
