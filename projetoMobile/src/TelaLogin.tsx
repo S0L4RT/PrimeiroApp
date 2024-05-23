@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Alert, View, Text, Image, TextInput, StyleSheet, Pressable } from 'react-native';
 import auth from '@react-native-firebase/auth'
 
+import { LoginProps } from './navigation/HomeNavigator'
+
 const clicou = () => {
     Alert.alert("Arthur Maciel", "Você chegou no final da execução!");
 }
 
-const Tela = () => {
+const TelaLogin = ({ navigation, route}: LoginProps) => {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
@@ -69,6 +71,12 @@ const Tela = () => {
                 >
                     <Text style={styles.botaoText}>Login</Text>
                 </Pressable>
+                <Pressable
+                    style={(state) => [styles.botao, state.pressed ? { opacity: 0.5} : null]}
+                    onPress={() => {navigation.navigate('TelaCadUsuario')}}
+                >
+                    <Text style={styles.botaoText}>Cadastrar-se</Text>
+                </Pressable>
             </View>
         </>
     );
@@ -111,4 +119,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Tela;
+export default TelaLogin;
