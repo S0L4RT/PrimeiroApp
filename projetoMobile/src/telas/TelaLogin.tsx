@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Alert, View, Text, Image, TextInput, StyleSheet, Pressable } from 'react-native';
 import auth from '@react-native-firebase/auth'
 
-import { LoginProps } from './navigation/HomeNavigator'
+import { LoginProps } from '../navigation/HomeNavigator'
 
 const clicou = () => {
     Alert.alert("Arthur Maciel", "Você chegou no final da execução!");
@@ -11,12 +11,13 @@ const clicou = () => {
 const TelaLogin = ({ navigation, route}: LoginProps) => {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const [isCarregando, seiIsCarregando] = useState(false);
 
     function logar () {
         if(verificaCampos()){
             auth()
             .signInWithEmailAndPassword(email, senha)
-            .then(() => {Alert.alert('Logado com sucesso!')})
+            .then(() => {navigation.navigate("TelaPrincipal")})
             .catch((error) => tratarErros(String(error)))
         }
     }
@@ -67,7 +68,8 @@ const TelaLogin = ({ navigation, route}: LoginProps) => {
                 />
                 <Pressable
                     style={(state) => [styles.botao, state.pressed ? { opacity: 0.5} : null]}
-                    onPress={() => { logar() }}
+                    onPress={() => {logar()}}
+                    disabled={isCarregando}
                 >
                     <Text style={styles.botaoText}>Login</Text>
                 </Pressable>

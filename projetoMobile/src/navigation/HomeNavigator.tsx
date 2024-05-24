@@ -1,11 +1,14 @@
 import {  NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack";
-import TelaLogin from "../TelaLogin";
-import TelaCadUsuario from "../TelaCadUsuario";
+import TelaLogin from "../telas/TelaLogin";
+import TelaCadUsuario from "../telas/TelaCadUsuario";
+import TelaPrincipal from "../telas/TelaPrincipal";
+
 
 
 type RootStackParamList = {
     TelaLogin: undefined;
     TelaCadUsuario: undefined;
+    TelaPrincipal: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -17,6 +20,7 @@ const HomeNavigator = () => {
             screenOptions={{headerShown: false}}>
                 <Stack.Screen name="TelaLogin" component={TelaLogin} />
                 <Stack.Screen name="TelaCadUsuario" component={TelaCadUsuario} />
+                <Stack.Screen name="TelaPrincipal" component={TelaPrincipal} />
         </Stack.Navigator>
     );
 };
@@ -25,6 +29,8 @@ type LoginProps = NativeStackScreenProps< RootStackParamList, 'TelaLogin'>;
 
 type CadUsuarioProps = NativeStackScreenProps< RootStackParamList, 'TelaCadUsuario'>;
 
+type PrincipalProps = NativeStackScreenProps< RootStackParamList, 'TelaPrincipal'>;
+
 export default HomeNavigator;
 
-export type {LoginProps, CadUsuarioProps}
+export type {LoginProps, CadUsuarioProps, PrincipalProps}
