@@ -3,12 +3,13 @@ import { Alert, Image, Pressable, StyleSheet, Text, TextInput, View } from "reac
 
 import auth from "@react-native-firebase/auth";
 import { CadUsuarioProps } from "../navigation/HomeNavigator";
+import Carregamento from "../Carregamento";
 
 const TelaCadUsuario = ({navigation, route}: CadUsuarioProps) => {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [confirmaSenha, setConfirmaSenha] = useState('');
-    const [isCarregando, seiIsCarregando] = useState(false);
+    const [isCarregando, setIsCarregando] = useState(false);
 
     async function cadastrar(){
         setIsCarregando(true);

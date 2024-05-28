@@ -7,15 +7,26 @@ const TelaPrincipal = ({ navigation, route }: PrincipalProps) => {
         <View style={styles.container}>
             <Text style={styles.textoPrin}>Bem Vindo</Text>
             <Pressable
-                style={styles.botao}>
+                style={(state) => [styles.botao, state.pressed ? { opacity: 0.5} : null]}
+                onPress={() => {navigation.navigate('TelaMed')}}>
                 <Text style={styles.botaoText}>
                     Calcular Media
                 </Text>
             </Pressable>
             <Pressable 
-                style={styles.botao}>
-                <Text style={styles.botaoText}>
-                    Calcular Media
+                style={(state) => [styles.botao, state.pressed ? { opacity: 0.5} : null]}>
+                <Text 
+                style={styles.botaoText}
+                onPress={() => {navigation.navigate('TelaCadNota')}}>
+                    Cadastrar Nota
+                </Text>
+            </Pressable>
+            <Pressable 
+                style={(state) => [styles.botao, state.pressed ? { opacity: 0.5} : null]}>
+                <Text 
+                style={styles.botaoText}
+                onPress={() => {navigation.navigate('TelaConNotas')}}>
+                    Consultar Notas
                 </Text>
             </Pressable>
         </View>
@@ -45,7 +56,8 @@ const styles = StyleSheet.create({
     botaoText: {
         fontSize: 20,
         color: '#fff',
-
+        marginLeft: 83,
+        marginTop: 5
     }
 })
 

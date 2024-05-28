@@ -5,7 +5,7 @@ import firestore from "@react-native-firebase/firestore";
 import Carregamento from "../Carregamento";
 import { CadNotaProps } from "../navigation/HomeNavigator";
 import { INotas } from "../model/INotas";
-import { Alert, Text, TextInput, View } from "react-native";
+import { Alert, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 const TelaCadNota = ({ navigation, route }: CadNotaProps) => {
     const [titulo, setTitulo] = useState('');
@@ -44,7 +44,7 @@ const TelaCadNota = ({ navigation, route }: CadNotaProps) => {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <Carregamento isCarregando={isCarregando}/>
             <Text>Título</Text>
             <TextInput
@@ -58,6 +58,48 @@ const TelaCadNota = ({ navigation, route }: CadNotaProps) => {
             maxLength={100}
             style={styles.caixa_texto}
             onChangeText={(text) => { setDescricao(text) }} />
+            <Pressable style={(state) => [styles.botao, state.pressed ? { opacity: 0.5} : null]}
+                    onPress={() => cadastrar()}
+                    disabled={isCarregando}>
+                    <Text style={styles.botaoText}>Cadastrar Nota</Text>
+            </Pressable>
         </View>
     )
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#8e8382',
+    },
+    caixa_texto: {
+        marginTop: 10,
+        padding: 10,
+        width: 300,
+        backgroundColor: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        borderRadius: 3,
+        color: '#000'
+    },
+    botao: {
+        width: 300,
+        height: 42,
+        backgroundColor: '#353535',
+        marginTop: 20,
+        borderRadius: 5,
+        color: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    botaoText: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: '#fff',
+        
+    },
+})
+
+export default TelaCadNota;
