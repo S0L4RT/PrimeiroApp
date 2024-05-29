@@ -23,6 +23,10 @@ const TelaALtNota = ({ navigation, route }: AltNotaProps) => {
             id: resultado.id,
             ...resultado.data()
         } as INotas;
+
+        setTitulo(nota.titulo);
+        setDescricao(nota.descricao);
+        setIsCarregando(false);
     };
 
     useEffect(() => {
