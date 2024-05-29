@@ -47,7 +47,7 @@ const ItemNota = ( props: ItemNotaProps) => {
     );
 };
 
-const TelaConNotas = ({ navigation, route }: ConNotasProps) => {
+const TelaConCliente = ({ navigation, route }: ConNotasProps) => {
     const [notas, setNotas] = useState([] as INotas[]);
     const [isCarregando, setIsCarregando] = useState(false);
 
@@ -109,7 +109,7 @@ const TelaConNotas = ({ navigation, route }: ConNotasProps) => {
     );
 };
 
-export default TelaConNotas;
+export default TelaConCliente;
 
 const styles = StyleSheet.create({
     container: {
