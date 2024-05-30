@@ -8,6 +8,9 @@ import TelaConNotas from "../telas/TelaConNota";
 import TelaAltNota from "../telas/TelaAltNota";
 import TelaCadCliente from "../telas/TelaCadCliente";
 import TelaConCliente from "../telas/TelaConCliente";
+import TelaInicial from "../telas/telasExerc/TelaInicial";
+import TelaExerc1 from "../telas/telasExerc/TelaExerc1";
+import TelaExerc2 from "../telas/telasExerc/TelaExerc2";
 
 
 
@@ -23,6 +26,9 @@ type RootStackParamList = {
     TelaAltNota: {id: string}
     TelaCadCliente: undefined;
     TelaConCliente: undefined;
+    TelaInicial: undefined;
+    TelaExerc1: undefined;
+    TelaExerc2: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -30,7 +36,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const HomeNavigator = () => {
     return (
         <Stack.Navigator
-            initialRouteName="TelaLogin"
+            initialRouteName="TelaInicial"
             screenOptions={{headerShown: false}}>
                 <Stack.Screen name="TelaLogin" component={TelaLogin} />
                 <Stack.Screen name="TelaCadUsuario" component={TelaCadUsuario} />
@@ -41,6 +47,9 @@ const HomeNavigator = () => {
                 <Stack.Screen name="TelaAltNota" component={TelaAltNota} />
                 <Stack.Screen name="TelaCadCliente" component={TelaCadCliente} />
                 <Stack.Screen name="TelaConCliente" component={TelaConCliente} />
+                <Stack.Screen name="TelaInicial" component={TelaInicial} />
+                <Stack.Screen name="TelaExerc1" component={TelaExerc1} />
+                <Stack.Screen name="TelaExerc2" component={TelaExerc2} />
         </Stack.Navigator>
     );
 };
@@ -63,6 +72,12 @@ type CadCliProps = NativeStackScreenProps< RootStackParamList, 'TelaCadCliente'>
 
 type ConCliProps = NativeStackScreenProps< RootStackParamList, 'TelaConCliente'>;
 
+type InicialProps = NativeStackScreenProps< RootStackParamList, 'TelaInicial'>;
+
+type Exerc1Props = NativeStackScreenProps< RootStackParamList, 'TelaExerc1'>;
+
+type Exerc2Props = NativeStackScreenProps< RootStackParamList, 'TelaExerc2'>;
+
 export default HomeNavigator;
 
-export type {LoginProps, CadUsuarioProps, PrincipalProps, CadNotaProps, MediaProps, ConNotasProps, AltNotaProps, CadCliProps, ConCliProps}
+export type {LoginProps, CadUsuarioProps, PrincipalProps, CadNotaProps, MediaProps, ConNotasProps, AltNotaProps, CadCliProps, ConCliProps, InicialProps, Exerc1Props, Exerc2Props}
