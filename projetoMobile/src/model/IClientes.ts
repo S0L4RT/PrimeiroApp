@@ -1,7 +1,7 @@
 import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 
 type IClientes = {
-    id: id | undefined,
+    id: number | undefined,
     nome: string,
     cpf: string,
     rua: string,
