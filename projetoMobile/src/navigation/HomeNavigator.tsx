@@ -36,7 +36,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const HomeNavigator = () => {
     return (
         <Stack.Navigator
-            initialRouteName="TelaInicial"
+            initialRouteName="TelaLogin"
             screenOptions={{headerShown: false}}>
                 <Stack.Screen name="TelaLogin" component={TelaLogin} />
                 <Stack.Screen name="TelaCadUsuario" component={TelaCadUsuario} />
@@ -49,7 +49,6 @@ const HomeNavigator = () => {
                 <Stack.Screen name="TelaConCliente" component={TelaConCliente} />
                 <Stack.Screen name="TelaInicial" component={TelaInicial} />
                 <Stack.Screen name="TelaExerc1" component={TelaExerc1} />
-                <Stack.Screen name="TelaExerc2" component={TelaExerc2} />
         </Stack.Navigator>
     );
 };

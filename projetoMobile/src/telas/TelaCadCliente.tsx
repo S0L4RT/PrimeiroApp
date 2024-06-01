@@ -34,7 +34,7 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
             } as IClientes;
 
             firestore()
-            .collection('notas')
+            .collection('clientes')
             .add(cliente)
             .then(() => {
                 Alert.alert("Cliente", "Cadastrado com sucesso")
@@ -54,6 +54,34 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
         return true;
     }
 
+    const formataCpf = (text: string) => {
+        let cpfFormat = text.replace(/\D/g, '');
+
+        if(cpfFormat.length > 3){
+            cpfFormat = cpfFormat.replace(/^(\d{3})(\d)/g, '$1.$2.$3');
+            if(cpfFormat.length > 7){
+                cpfFormat = cpfFormat.replace(/^(\d{3})\.(\d{3})(\d)/g, '$1.$2.$3');
+                if(cpfFormat.length > 11){
+                    cpfFormat = cpfFormat.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/g, '$1.$2.$3-$4')
+                }
+            }
+        }
+        return cpfFormat.substring(9, 14);
+    }
+
+    const ajustCpf = (text: string) => {
+        const cpfFormat = formataCpf(text);
+        setCpf(cpfFormat)
+    }
+
+    const formataTel = (text: string) => {
+        let telFormat = text.replace(/\D/g, '');
+
+        if(telFormat.length > 2){
+            telFormat = telFormat.replace(/^(\d{2})(\d)/g, '')
+        }
+    }
+
     return (
         <View style={styles.container}>
             <Carregamento isCarregando={isCarregando}/>
@@ -66,7 +94,11 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
             <Text>CPF</Text>
             <TextInput
                 style={styles.caixa_texto}
-                onChangeText={(text) => { setCpf(text) }}/>
+                onChangeText={ajustCpf}
+                value={cpf}
+                placeholder="000.000.000-00"
+                keyboardType="numeric"
+                maxLength={14}/>
 
             <Text>Endereço</Text>
             <Text>Rua</Text>
