@@ -2,13 +2,13 @@ import { useState, useEffect} from "react";
 import { Alert, Pressable, FlatList, StyleSheet, Text, View } from "react-native";
 
 import firestore from "@react-native-firebase/firestore";
-import { INotas } from "../model/INotas";
-import { ConNotasProps } from "../navigation/HomeNavigator";
+import { IClientes } from "../model/IClientes";
+import { ConCliProps } from "../navigation/HomeNavigator";
 import Carregamento from "../Carregamento";
 
 type ItemNotaProps = {
     numero: number;
-    nota: INotas;
+    nota: IClientes;
     onAlterar: (id: string) => void;
     onDeletar: (id: string) => void;
 };
@@ -21,14 +21,14 @@ const ItemNota = ( props: ItemNotaProps) => {
         <View style={styles.card}>
             <View style={styles.dados_card}>
                 <Text style={{ fontSize: 35 }}>
-                    {props.numero+1 + ' - ' + props.nota.titulo}
+                    {props.numero+1 + ' - ' + props.nota.nome}
                 </Text>
-                <Text style={{ fontSize: 20 }}>{props.nota.descricao}</Text>
+                <Text style={{ fontSize: 20 }}>{props.nota.cpf}</Text>
             </View>
 
             <View style={styles.botao_alterar}>
                 <Pressable
-                    onPress={() => props.onAlterar(props.nota.id!)}>
+                    onPress={() => props.onAlterar(props.nota.nome!)}>
                         <Text style={styles.texto_botao_card}>
                             A
                         </Text>
@@ -37,7 +37,7 @@ const ItemNota = ( props: ItemNotaProps) => {
 
             <View style={styles.botao_deletar}>
                 <Pressable
-                    onPress={() => props.onDeletar(props.nota.id!)}>
+                    onPress={() => props.onDeletar(props.nota.nome!)}>
                         <Text style={styles.texto_botao_card}>
                             X
                         </Text>
@@ -47,26 +47,26 @@ const ItemNota = ( props: ItemNotaProps) => {
     );
 };
 
-const TelaConCliente = ({ navigation, route }: ConNotasProps) => {
-    const [notas, setNotas] = useState([] as INotas[]);
+const TelaConCliente = ({ navigation, route }: ConCliProps) => {
+    const [clientes, setClientes] = useState([] as IClientes[]);
     const [isCarregando, setIsCarregando] = useState(false);
 
     useEffect(() => {
         setIsCarregando(true)
 
         const subscribe = firestore()
-            .collection('notas')
+            .collection('clientes')
             .onSnapshot(querySnapshot => {
                 const data = querySnapshot.docs.map(doc => {
 
                     return {
-                        id: doc.id,
+                        nome: doc.id,
                         ...doc.data()
                     }
 
-                })as INotas[];
+                })as IClientes[];
 
-                setNotas(data);
+                setClientes(data);
                 setIsCarregando(false);
             });
         return () => subscribe();
@@ -80,11 +80,11 @@ const TelaConCliente = ({ navigation, route }: ConNotasProps) => {
         setIsCarregando(true);
 
         firestore()
-        .collection('notas')
+        .collection('clientes')
         .doc(id)
         .delete()
         .then(() => {
-            Alert.alert("Nota", "Removida com sucesso")
+            Alert.alert("Cliente", "Removido com sucesso")
         })
         .catch((error) => console.log(error))
         .finally(() => setIsCarregando(false));
@@ -95,9 +95,9 @@ const TelaConCliente = ({ navigation, route }: ConNotasProps) => {
         <View style={styles.container}>
             <Carregamento isCarregando={isCarregando}/>
 
-            <Text style={styles.titulo}>Listagem de Notas</Text>
+            <Text style={styles.titulo}>Listagem de Clientes</Text>
             <FlatList
-                data={notas}
+                data={clientes}
                 renderItem={(info) => 
                     <ItemNota 
                         numero={info.index}

@@ -10,6 +10,7 @@ import { IClientes } from "../model/IClientes";
 const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
+    const [tel, setTel] = useState('');
     const [rua, setRua] = useState('');
     const [bairro, setBairro] = useState('');
     const [cidade, setCidade] = useState('');
@@ -78,8 +79,19 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
         let telFormat = text.replace(/\D/g, '');
 
         if(telFormat.length > 2){
-            telFormat = telFormat.replace(/^(\d{2})(\d)/g, '')
+            telFormat = telFormat.replace(/^(\d{2})(\d)/g, '($1) $2-$3');
+            if(telFormat.length > 7){
+                telFormat = telFormat.replace(/^(\d{2})\.(\d{5})(\d)/g, '($1) $2-$3');
+                if(telFormat.length > 11){
+                    telFormat = telFormat.replace(/^(\d{2})\.(\d{5})\.(\d{4})(\d)/g, '($1) $2-$3')
+                }
+            }
         }
+    }
+
+    const ajustTel = (text: string) => {
+        const telFormat = formataTel(text);
+        setTel(telFormat)
     }
 
     return (
@@ -99,6 +111,15 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
                 placeholder="000.000.000-00"
                 keyboardType="numeric"
                 maxLength={14}/>
+            
+            <Text>Telefone</Text>
+            <TextInput
+                style={styles.caixa_texto}
+                onChangeText={ajustTel}
+                value={tel}
+                placeholder="(00) 00000-0000"
+                keyboardType="numeric"
+                maxLength={15}/>
 
             <Text>Endereço</Text>
             <Text>Rua</Text>
