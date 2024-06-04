@@ -7,6 +7,7 @@ type IClientes = {
     rua: string,
     bairro: string,
     cidade: string,
+    estado: string,
     num: string,
     dataNasc: string,
     created_at: FirebaseFirestoreTypes.FieldValue

@@ -8,9 +8,6 @@ import TelaConNotas from "../telas/TelaConNota";
 import TelaAltNota from "../telas/TelaAltNota";
 import TelaCadCliente from "../telas/TelaCadCliente";
 import TelaConCliente from "../telas/TelaConCliente";
-import TelaInicial from "../telas/telasExerc/TelaInicial";
-import TelaExerc1 from "../telas/telasExerc/TelaExerc1";
-import TelaExerc2 from "../telas/telasExerc/TelaExerc2";
 import TelaCadExam from "../telas/TelaCadExam";
 
 
@@ -49,8 +46,6 @@ const HomeNavigator = () => {
                 <Stack.Screen name="TelaAltNota" component={TelaAltNota} />
                 <Stack.Screen name="TelaCadCliente" component={TelaCadCliente} />
                 <Stack.Screen name="TelaConCliente" component={TelaConCliente} />
-                <Stack.Screen name="TelaInicial" component={TelaInicial} />
-                <Stack.Screen name="TelaExerc1" component={TelaExerc1} />
                 <Stack.Screen name="TelaCadExam" component={TelaCadExam} />
         </Stack.Navigator>
     );
@@ -74,15 +69,8 @@ type CadCliProps = NativeStackScreenProps< RootStackParamList, 'TelaCadCliente'>
 
 type ConCliProps = NativeStackScreenProps< RootStackParamList, 'TelaConCliente'>;
 
-type InicialProps = NativeStackScreenProps< RootStackParamList, 'TelaInicial'>;
-
-type Exerc1Props = NativeStackScreenProps< RootStackParamList, 'TelaExerc1'>;
-
-type Exerc2Props = NativeStackScreenProps< RootStackParamList, 'TelaExerc2'>;
-
 type CadExamProps = NativeStackScreenProps< RootStackParamList, 'TelaCadExam'>;
 
 export default HomeNavigator;
 
-export type {LoginProps, CadUsuarioProps, PrincipalProps, CadNotaProps, MediaProps, ConNotasProps, AltNotaProps, CadCliProps, ConCliProps, InicialProps,
-    Exerc1Props, Exerc2Props, CadExamProps}
+export type {LoginProps, CadUsuarioProps, PrincipalProps, CadNotaProps, MediaProps, ConNotasProps, AltNotaProps, CadCliProps, ConCliProps, CadExamProps}
