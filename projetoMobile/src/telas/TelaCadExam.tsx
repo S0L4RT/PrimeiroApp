@@ -1,73 +1,88 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Pressable, StyleSheet } from 'react-native';
-import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
+import { useState } from "react";
+
+
 import firestore from "@react-native-firebase/firestore";
-import { CadExamProps } from '../navigation/HomeNavigator';
+import Carregamento from "../Carregamento";
+import { CadNotaProps } from "../navigation/HomeNavigator";
+import { INotas } from "../model/INotas";
+import { Alert, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
-type ParamList = {
-    CreateExam: {
-        clienteId: string;
-    };
-};
+const TelaCadNota = ({ navigation, route }: CadNotaProps) => {
+    const [titulo, setTitulo] = useState('');
+    const [descricao, setDescricao] = useState('');
+    const [isCarregando, setIsCarregando] = useState(false);
 
-const CreateExamScreen = ( {navigation}: CadExamProps) => {
-    const route = useRoute<RouteProp<ParamList, 'CreateExam'>>();
-    const { clienteId } = route.params;
+    function cadastrar() {
+        setIsCarregando(true);
 
-    const [examName, setExamName] = useState('');
-    const [examDate, setExamDate] = useState('');
+        if(verificaCampos()){
+            let nota = {
+                titulo: titulo,
+                descricao: descricao,
+                created_at: firestore.FieldValue.serverTimestamp()
+            } as INotas;
 
-    const handleAddExam = () => {
-        try {
             firestore()
-            .collection('exames')
-            .add({
-                    clienteId,
-                    examName,
-                    examDate,
-                });
-            console.log('Exame adicionado com sucesso');
-            navigation.goBack();
-        } catch (error) {
-            console.error('Erro ao adicionar o exame:', error);
+            .collection('notas')
+            .add(nota)
+            .then(() => {
+                Alert.alert("Nota", "Cadastrada com sucesso")
+                navigation.navigate('TelaPrincipal')
+            })
+            .catch((error) => console.log(error))
+            .finally(() => setIsCarregando(false));
         }
+        setIsCarregando(false);
     };
 
-    return(
+    function verificaCampos(){
+        if(titulo == ''){
+            Alert.alert("Titulo em branco", "Digite um titulo")
+            return false;
+        }
+        return true;
+    }
+
+    return (
         <View style={styles.container}>
-            <Text>Adicionar exame para cliente ID: {clienteId}</Text>
+            <Carregamento isCarregando={isCarregando}/>
+            <Text>Título</Text>
             <TextInput
-                placeholder='Nome do Exame'
-                value={examName}
-                onChangeText={setExamName}
-                style={styles.input}/>
-            <Text>Adicione uma data:</Text>
+                style={styles.caixa_texto}
+                onChangeText={(text) => { setTitulo(text) }}/>
+            
+            <Text>Descrição</Text>
             <TextInput
-                placeholder='Data do exame'
-                value={examDate}
-                onChangeText={setExamDate}
-                style={styles.input}/>
-            <Pressable
-                style={styles.botao}
-                onPress={handleAddExam}>
-                    <Text style={styles.botaoText}>Adicionar Exame</Text>
+            multiline
+            numberOfLines={4}
+            maxLength={100}
+            style={styles.caixa_texto}
+            onChangeText={(text) => { setDescricao(text) }} />
+            <Pressable style={(state) => [styles.botao, state.pressed ? { opacity: 0.5} : null]}
+                    onPress={() => cadastrar()}
+                    disabled={isCarregando}>
+                    <Text style={styles.botaoText}>Cadastrar Nota</Text>
             </Pressable>
         </View>
-    );
+    )
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 16,
-        backgroundColor: '#fff',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#8e8382',
     },
-    input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 12,
-        paddingHorizontal: 8,
+    caixa_texto: {
+        marginTop: 10,
+        padding: 10,
+        width: 300,
+        backgroundColor: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        borderRadius: 3,
+        color: '#000'
     },
     botao: {
         width: 300,
@@ -78,13 +93,13 @@ const styles = StyleSheet.create({
         color: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: 46
     },
     botaoText: {
         fontSize: 25,
         fontWeight: 'bold',
-        color: '#fff',  
+        color: '#fff',
+        
     },
-});
+})
 
-export default CreateExamScreen
+export default TelaCadNota;

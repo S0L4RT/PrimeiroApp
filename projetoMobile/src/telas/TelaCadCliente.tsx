@@ -4,7 +4,7 @@ import { useState } from "react";
 import firestore from "@react-native-firebase/firestore";
 import Carregamento from "../Carregamento";
 import { CadCliProps } from "../navigation/HomeNavigator";
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { IClientes } from "../model/IClientes";
 
 const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
@@ -14,6 +14,7 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
     const [rua, setRua] = useState('');
     const [bairro, setBairro] = useState('');
     const [cidade, setCidade] = useState('');
+    const [estado, setEstado] = useState('');
     const [num, setNum] = useState('');
     const [dataNasc, setDataNasc] = useState('');
     const [isCarregando, setIsCarregando] = useState(false);
@@ -29,6 +30,7 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
                 rua: rua,
                 bairro: bairro,
                 cidade: cidade,
+                estado: estado,
                 num: num,
                 dataNasc: dataNasc,
                 created_at: firestore.FieldValue.serverTimestamp()
@@ -41,7 +43,9 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
                 Alert.alert("Cliente", "Cadastrado com sucesso")
                 navigation.navigate('TelaPrincipal')
             })
-            .catch((error) => console.log(error))
+            .catch((error) => {console.log(error)
+                Alert.alert("Erro", "Ocorreu um erro ao cadastrar o cliente")
+            })
             .finally(() => setIsCarregando(false));
         }
         setIsCarregando(false);
@@ -51,51 +55,72 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
         if(nome == ''){
             Alert.alert("Nome em branco", "Digite um nome")
             return false;
-        }
+        }if(!(/^[a-zA-Z\s]+$/.test(nome))){
+            Alert.alert("Formato do nome inválido, o nome deve conter apenas letras.");
+            return false;
+        }if(cpf == ''){
+            Alert.alert("CPF em branco", "Digite um CPF");
+            return false;
+        }if(!(cpf.length==14)){
+            Alert.alert("CPF inválido", "Deve ser informado um CPF com 11 digitos")
+            return false;
+            }if(rua == ''){
+                Alert.alert("Rua em branco", "Digite uma rua")
+                return false;
+            }if(bairro == ''){
+                Alert.alert("Bairro em branco", "Digite um bairro")
+                return false;
+            }if(cidade == ''){
+                Alert.alert("Cidade em branco", "Digite uma cidade");
+                return false;
+            }if(estado == ''){
+                Alert.alert("Estado em branco", "Digite um estado");
+                return false;
+            }
         return true;
     }
 
     const formataCpf = (text: string) => {
         let cpfFormat = text.replace(/\D/g, '');
 
-        if(cpfFormat.length > 3){
-            cpfFormat = cpfFormat.replace(/^(\d{3})(\d)/g, '$1.$2.$3');
-            if(cpfFormat.length > 7){
+        if (cpfFormat.length > 3) {
+            cpfFormat = cpfFormat.replace(/^(\d{3})(\d)/g, '$1.$2');
+            if (cpfFormat.length > 7) {
                 cpfFormat = cpfFormat.replace(/^(\d{3})\.(\d{3})(\d)/g, '$1.$2.$3');
-                if(cpfFormat.length > 11){
-                    cpfFormat = cpfFormat.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/g, '$1.$2.$3-$4')
+                if (cpfFormat.length > 11) {
+                    cpfFormat = cpfFormat.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/g, '$1.$2.$3-$4');
                 }
             }
         }
-        return cpfFormat.substring(9, 14);
-    }
+        return cpfFormat.substring(0, 14);
+    };
 
-    const ajustCpf = (text: string) => {
-        const cpfFormat = formataCpf(text);
-        setCpf(cpfFormat)
-    }
+    const ajustaCPF = (text: string) => {
+        const cpfFormatado = formataCpf(text);
+        setCpf(cpfFormatado);
+    };
 
     const formataTel = (text: string) => {
         let telFormat = text.replace(/\D/g, '');
 
         if(telFormat.length > 2){
-            telFormat = telFormat.replace(/^(\d{2})(\d)/g, '($1) $2-$3');
-            if(telFormat.length > 7){
-                telFormat = telFormat.replace(/^(\d{2})\.(\d{5})(\d)/g, '($1) $2-$3');
-                if(telFormat.length > 11){
-                    telFormat = telFormat.replace(/^(\d{2})\.(\d{5})\.(\d{4})(\d)/g, '($1) $2-$3')
-                }
+            telFormat = telFormat.replace(/^(\d{2})(\d)/g, '($1)$2');
+            if(telFormat.length > 8){
+                telFormat = telFormat.replace(/^\((\d{2})\)(\d{5})(\d)/g, '($1) $2-$3');
+                
             }
         }
+        return telFormat.substring(0, 15);
     }
 
     const ajustTel = (text: string) => {
         const telFormat = formataTel(text);
-        setTel(telFormat)
+        setTel(telFormat);
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView>
+            <View style={styles.container}>
             <Carregamento isCarregando={isCarregando}/>
             <Text>Cadastrar Cliente</Text>
             <Text>Nome completo</Text>
@@ -106,7 +131,7 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
             <Text>CPF</Text>
             <TextInput
                 style={styles.caixa_texto}
-                onChangeText={ajustCpf}
+                onChangeText={ajustaCPF}
                 value={cpf}
                 placeholder="000.000.000-00"
                 keyboardType="numeric"
@@ -152,7 +177,8 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
                     disabled={isCarregando}>
                     <Text style={styles.botaoText}>Cadastrar Cliente</Text>
             </Pressable>
-        </View>
+            </View>
+        </ScrollView>
     )
 };
 
