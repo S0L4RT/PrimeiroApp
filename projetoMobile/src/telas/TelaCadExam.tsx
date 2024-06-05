@@ -1,55 +1,73 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 import firestore from "@react-native-firebase/firestore";
 import Carregamento from "../Carregamento";
-import { CadNotaProps } from "../navigation/HomeNavigator";
+import { Dropdown } from "react-native-element-dropdown";
+import { CadExamProps } from "../navigation/HomeNavigator";
 import { INotas } from "../model/INotas";
 import { Alert, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { IClientes } from "../model/IClientes";
+import { IExam } from "../model/IExam";
 
-const TelaCadNota = ({ navigation, route }: CadNotaProps) => {
-    const [titulo, setTitulo] = useState('');
+const TelaCadExam = ({ navigation, route }: CadExamProps) => {
+    const [isFocus, setIsFocus] = useState(false);
+    const [value, setValue] = useState(null)
+    const [nome, setNome] = useState('');
     const [descricao, setDescricao] = useState('');
     const [isCarregando, setIsCarregando] = useState(false);
+    const [Clientes, setIsClientes] = useState([] as IClientes[])
+    const [nomeCliente, setNomeCliente] = useState('')
 
-    function cadastrar() {
-        setIsCarregando(true);
+    useEffect(() => {
+        setIsCarregando(true)
 
-        if(verificaCampos()){
-            let nota = {
-                titulo: titulo,
-                descricao: descricao,
-                created_at: firestore.FieldValue.serverTimestamp()
-            } as INotas;
+        const subscribe = firestore()
+            .collection('clientes')
+            .onSnapshot(querySnapshot => {
+                const data = querySnapshot.docs.map(doc => {
 
-            firestore()
-            .collection('notas')
-            .add(nota)
-            .then(() => {
-                Alert.alert("Nota", "Cadastrada com sucesso")
-                navigation.navigate('TelaPrincipal')
-            })
-            .catch((error) => console.log(error))
-            .finally(() => setIsCarregando(false));
-        }
-        setIsCarregando(false);
-    };
+                    return {
+                        nome: doc.id,
+                        ...doc.data()
+                    }
 
-    function verificaCampos(){
-        if(titulo == ''){
-            Alert.alert("Titulo em branco", "Digite um titulo")
-            return false;
-        }
-        return true;
-    }
+                })as IClientes[];
 
-    return (
+                setIsClientes(data);
+                setIsCarregando(false);
+            });
+        return () => subscribe();
+    }, []);
+
+    return(
         <View style={styles.container}>
+        <Dropdown
+            style={styles.dropdown}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={Clientes}
+            search
+            maxHeight={300}
+            labelField="nome"
+            valueField="nome"
+            placeholder={!isFocus ? 'Select item' : '...'}
+            searchPlaceholder="Search..."
+            value={value}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={item => {
+                setValue(item.nome as any);
+                setNomeCliente(item.nome)
+                setIsFocus(false);
+            }}/>
             <Carregamento isCarregando={isCarregando}/>
-            <Text>Título</Text>
+            <Text>Nome do procedimento</Text>
             <TextInput
                 style={styles.caixa_texto}
-                onChangeText={(text) => { setTitulo(text) }}/>
+                onChangeText={(text) => { setNome(text) }}/>
             
             <Text>Descrição</Text>
             <TextInput
@@ -63,8 +81,40 @@ const TelaCadNota = ({ navigation, route }: CadNotaProps) => {
                     disabled={isCarregando}>
                     <Text style={styles.botaoText}>Cadastrar Nota</Text>
             </Pressable>
-        </View>
+            </View>
     )
+
+    function cadastrar() {
+        setIsCarregando(true);
+
+        if(verificaCampos()){
+            let exame = {
+                nomeCliente: nomeCliente,
+                nome: nome,
+                descricao: descricao,
+                created_at: firestore.FieldValue.serverTimestamp()
+            } as IExam;
+
+            firestore()
+            .collection('exames')
+            .add(exame)
+            .then(() => {
+                Alert.alert("Exame", "Cadastrado com sucesso")
+                navigation.navigate('TelaPrincipal')
+            })
+            .catch((error) => console.log(error))
+            .finally(() => setIsCarregando(false));
+        }
+        setIsCarregando(false);
+    };
+
+    function verificaCampos(){
+        if(nome == ''){
+            Alert.alert("Titulo em branco", "Digite um titulo")
+            return false;
+        }
+        return true;
+    }
 };
 
 const styles = StyleSheet.create({
@@ -100,6 +150,40 @@ const styles = StyleSheet.create({
         color: '#fff',
         
     },
+    dropdown: {
+        height: 50,
+        borderColor: 'gray',
+        borderWidth: 0.5,
+        borderRadius: 8,
+        paddingHorizontal: 8,
+        width: 275
+    }, 
+    icon: {
+        marginRight: 5,
+    },
+    label: {
+        position: 'absolute',
+        backgroundColor: 'white',
+        left: 22,
+        top: 8,
+        zIndex: 999,
+        paddingHorizontal: 8,
+        fontSize: 14,
+    },
+    placeholderStyle: {
+        fontSize: 16,
+    },
+    selectedTextStyle:{
+        fontSize: 16,
+    },
+    iconStyle: {
+        width: 20,
+        height: 20,
+    },
+    inputSearchStyle: {
+        height: 40,
+        fontSize: 16,
+    }
 })
 
-export default TelaCadNota;
+export default TelaCadExam;

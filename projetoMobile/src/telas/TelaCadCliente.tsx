@@ -161,6 +161,11 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
             <TextInput
                 style={styles.caixa_texto}
                 onChangeText={(text) => { setCidade(text) }}/>
+
+            <Text>Esatdo</Text>
+            <TextInput
+                style={styles.caixa_texto}
+                onChangeText={(text) => { setEstado(text) }}/>
             
             <Text>Número</Text>
             <TextInput

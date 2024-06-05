@@ -9,6 +9,8 @@ import TelaAltNota from "../telas/TelaAltNota";
 import TelaCadCliente from "../telas/TelaCadCliente";
 import TelaConCliente from "../telas/TelaConCliente";
 import TelaCadExam from "../telas/TelaCadExam";
+import TelaConExam from "../telas/TelaConExam";
+import TelaAltExam from "../telas/TelaAltExam";
 
 
 
@@ -28,6 +30,8 @@ type RootStackParamList = {
     TelaExerc1: undefined;
     TelaExerc2: undefined;
     TelaCadExam: undefined;
+    TelaConExam: undefined;
+    TelaAltExam: {id: string};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -47,6 +51,8 @@ const HomeNavigator = () => {
                 <Stack.Screen name="TelaCadCliente" component={TelaCadCliente} />
                 <Stack.Screen name="TelaConCliente" component={TelaConCliente} />
                 <Stack.Screen name="TelaCadExam" component={TelaCadExam} />
+                <Stack.Screen name="TelaConExam" component={TelaConExam} />
+                <Stack.Screen name="TelaAltExam" component={TelaAltExam} />
         </Stack.Navigator>
     );
 };
@@ -71,6 +77,10 @@ type ConCliProps = NativeStackScreenProps< RootStackParamList, 'TelaConCliente'>
 
 type CadExamProps = NativeStackScreenProps< RootStackParamList, 'TelaCadExam'>;
 
+type ConExamProps = NativeStackScreenProps< RootStackParamList, 'TelaConExam'>;
+
+type AltExamProps = NativeStackScreenProps< RootStackParamList, 'TelaAltExam'>;
+
 export default HomeNavigator;
 
-export type {LoginProps, CadUsuarioProps, PrincipalProps, CadNotaProps, MediaProps, ConNotasProps, AltNotaProps, CadCliProps, ConCliProps, CadExamProps}
+export type {LoginProps, CadUsuarioProps, PrincipalProps, CadNotaProps, MediaProps, ConNotasProps, AltNotaProps, CadCliProps, ConCliProps, CadExamProps, ConExamProps, AltExamProps}
