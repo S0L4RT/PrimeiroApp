@@ -53,6 +53,14 @@ const TelaPrincipal = ({ navigation, route }: PrincipalProps) => {
                     Cadastrar exames
                 </Text>
             </Pressable>
+            <Pressable 
+                style={(state) => [styles.botao, state.pressed ? { opacity: 0.5} : null]}>
+                <Text 
+                style={styles.botaoText}
+                onPress={() => {navigation.navigate('TelaConExam')}}>
+                    Consultar exames
+                </Text>
+            </Pressable>
         </View>
     );
 };
