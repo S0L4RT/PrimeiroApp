@@ -114,7 +114,7 @@ export default TelaConExam;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFACD'
+        backgroundColor: '#8e8382'
     },
     titulo: {
         fontSize: 40,

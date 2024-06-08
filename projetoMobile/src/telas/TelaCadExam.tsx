@@ -6,7 +6,7 @@ import Carregamento from "../Carregamento";
 import { Dropdown } from "react-native-element-dropdown";
 import { CadExamProps } from "../navigation/HomeNavigator";
 import { INotas } from "../model/INotas";
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { IClientes } from "../model/IClientes";
 import { IExam } from "../model/IExam";
 
@@ -42,6 +42,7 @@ const TelaCadExam = ({ navigation, route }: CadExamProps) => {
 
     return(
         <View style={styles.container}>
+            <Text style={styles.text}>Selecione o cliente</Text>
         <Dropdown
             style={styles.dropdown}
             placeholderStyle={styles.placeholderStyle}
@@ -64,12 +65,12 @@ const TelaCadExam = ({ navigation, route }: CadExamProps) => {
                 setIsFocus(false);
             }}/>
             <Carregamento isCarregando={isCarregando}/>
-            <Text>Nome do procedimento</Text>
+            <Text style={styles.text}>Nome do procedimento</Text>
             <TextInput
                 style={styles.caixa_texto}
                 onChangeText={(text) => { setNome(text) }}/>
             
-            <Text>Descrição</Text>
+            <Text style={styles.text}>Descrição</Text>
             <TextInput
             multiline
             numberOfLines={4}
@@ -151,12 +152,13 @@ const styles = StyleSheet.create({
         
     },
     dropdown: {
+        backgroundColor: 'white',
         height: 50,
         borderColor: 'gray',
         borderWidth: 0.5,
         borderRadius: 8,
         paddingHorizontal: 8,
-        width: 275
+        width: 300
     }, 
     icon: {
         marginRight: 5,
@@ -183,6 +185,11 @@ const styles = StyleSheet.create({
     inputSearchStyle: {
         height: 40,
         fontSize: 16,
+    },
+    text:{
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: '#000',
     }
 })
 

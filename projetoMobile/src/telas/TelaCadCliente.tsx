@@ -122,13 +122,12 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
         <ScrollView>
             <View style={styles.container}>
             <Carregamento isCarregando={isCarregando}/>
-            <Text>Cadastrar Cliente</Text>
-            <Text>Nome completo</Text>
+            <Text style={styles.text}>Nome completo</Text>
             <TextInput
                 style={styles.caixa_texto}
                 onChangeText={(text) => { setNome(text) }}/>
 
-            <Text>CPF</Text>
+            <Text style={styles.text}>CPF</Text>
             <TextInput
                 style={styles.caixa_texto}
                 onChangeText={ajustaCPF}
@@ -137,7 +136,7 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
                 keyboardType="numeric"
                 maxLength={14}/>
             
-            <Text>Telefone</Text>
+            <Text style={styles.text}>Telefone</Text>
             <TextInput
                 style={styles.caixa_texto}
                 onChangeText={ajustTel}
@@ -146,33 +145,32 @@ const TelaCadCliente = ({ navigation, route }: CadCliProps) => {
                 keyboardType="numeric"
                 maxLength={15}/>
 
-            <Text>Endereço</Text>
-            <Text>Rua</Text>
+            <Text style={styles.text}>Rua</Text>
             <TextInput
                 style={styles.caixa_texto}
                 onChangeText={(text) => { setRua(text) }}/>
             
-            <Text>Bairro</Text>
+            <Text style={styles.text}>Bairro</Text>
             <TextInput
                 style={styles.caixa_texto}
                 onChangeText={(text) => { setBairro(text) }}/>
             
-            <Text>Cidade</Text>
+            <Text style={styles.text}>Cidade</Text>
             <TextInput
                 style={styles.caixa_texto}
                 onChangeText={(text) => { setCidade(text) }}/>
 
-            <Text>Esatdo</Text>
+            <Text style={styles.text}>Esatdo</Text>
             <TextInput
                 style={styles.caixa_texto}
                 onChangeText={(text) => { setEstado(text) }}/>
             
-            <Text>Número</Text>
+            <Text style={styles.text}>Número</Text>
             <TextInput
                 style={styles.caixa_texto}
                 onChangeText={(text) => { setNum(text) }}/>
             
-            <Text>Data de nascimento</Text>
+            <Text style={styles.text}>Data de nascimento</Text>
             <TextInput
                 style={styles.caixa_texto}
                 onChangeText={(text) => { setDataNasc(text) }}/>
@@ -193,6 +191,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#8e8382',
+        paddingTop: 60,
     },
     caixa_texto: {
         marginTop: 10,
@@ -201,8 +200,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
-        borderRadius: 3,
-        color: '#000'
+        borderRadius: 5,
+        marginLeft: 0
     },
     botao: {
         width: 300,
@@ -220,6 +219,12 @@ const styles = StyleSheet.create({
         color: '#fff',
         
     },
+    text: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#000',
+        marginRight: 150
+    }
 })
 
 export default TelaCadCliente;

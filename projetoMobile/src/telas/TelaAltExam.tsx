@@ -61,16 +61,9 @@ const TelaALtExam = ({ navigation, route }: AltExamProps) => {
                 <Carregamento isCarregando={isCarregando}/>
 
                 <Text style={styles.titulo}>Alterar Exame</Text>
-
                 <Text
-                    style={styles.desc_caixa_texto}>
-                        Título
-                    </Text>
-                    
-
-                <Text
-                    style={styles.desc_caixa_texto}>
-                        Título
+                    style={styles.text}>
+                        Nome do procedimento
                     </Text>
                     <TextInput
                         style={styles.caixa_texto}
@@ -78,7 +71,7 @@ const TelaALtExam = ({ navigation, route }: AltExamProps) => {
                         onChangeText={(text) => { setNome(text) }}/>
                     
                     <Text
-                        style={styles.desc_caixa_texto}>
+                        style={styles.text}>
                             Descrição
                     </Text>
                     <TextInput
@@ -104,7 +97,7 @@ export default TelaALtExam
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#FFFACD",
+        backgroundColor: "#8e8382",
         alignItems: 'center'
     },
     titulo : {
@@ -137,4 +130,9 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color: 'white'
     },
+    text:{
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: '#000',
+    }
 })
